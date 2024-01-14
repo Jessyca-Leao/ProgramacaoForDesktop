@@ -1,0 +1,56 @@
+using System;
+
+class Program
+{
+    static string[] unidades = {"", "Um", "Dois", "Três", "Quatro", "Cinco", "Seis", "Sete", "Oito", "Nove"};
+    static string[] especiais = {"", "Onze", "Doze", "Treze", "Catorze", "Quinze", "Dezesseis", "Dezessete", "Dezoito", "Dezenove"};
+    static string[] dezenas = {"", "Dez", "Vinte", "Trinta", "Quarenta", "Cinquenta", "Sessenta", "Setenta", "Oitenta", "Noventa"};
+
+    static void Main()
+    {
+        Console.Write("Digite um número entre 1 e 99: ");
+        int numero = int.Parse(Console.ReadLine());
+
+        if (numero >= 1 && numero <= 99)
+        {
+            string extenso = ConverterParaExtenso(numero);
+            Console.WriteLine($"Número por extenso: {extenso}");
+        }
+        else
+        {
+            Console.WriteLine("Número fora da faixa permitida.");
+        }
+
+        Console.WriteLine("Obrigado e tenha um bom dia!");
+    }
+
+    static string ConverterParaExtenso(int numero)
+    {
+        if (numero >= 1 && numero <= 9)
+        {
+            return unidades[numero];
+        }
+        else if (numero >= 11 && numero <= 19)
+        {
+            return especiais[numero - 10];
+        }
+        else if (numero >= 21 && numero <= 99)
+        {
+            int unidade = numero % 10;
+            int dezena = numero / 10;
+
+            if (unidade == 0)
+            {
+                return dezenas[dezena];
+            }
+            else
+            {
+                return $"{dezenas[dezena]} e {unidades[unidade]}";
+            }
+        }
+        else
+        {
+            return "Número fora da faixa permitida.";
+        }
+    }
+}
