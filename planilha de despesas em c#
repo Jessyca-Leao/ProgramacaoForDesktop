@@ -1,0 +1,260 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
+
+namespace JessyAtv
+{
+    public partial class Form1 : Form
+    {
+        private List<Despesa> despesas;
+        private Button btnGerarDocumentoConsolidado;
+        private Button btnOrdenarDespesas;
+
+        public Form1()
+        {
+            InitializeComponent();
+            despesas = new List<Despesa>();
+            InicializarDataGridView();
+
+            // Inicializar e configurar o botão para gerar o documento consolidado
+            btnGerarDocumentoConsolidado = new Button();
+            btnGerarDocumentoConsolidado.Text = "Gerar Documento Consolidado";
+            btnGerarDocumentoConsolidado.Click += btnGerarDocumentoConsolidado_Click;
+
+            // Inicializar e configurar o botão para ordenar as despesas
+            btnOrdenarDespesas = new Button();
+            btnOrdenarDespesas.Text = "Ordenar Despesas";
+            btnOrdenarDespesas.Click += btnOrdenarDespesas_Click;
+
+            // Adicionar os botões ao formulário
+            Controls.Add(btnGerarDocumentoConsolidado);
+            Controls.Add(btnOrdenarDespesas);
+
+            // Adicionar um título ao formulário
+            Text = "Controle de Despesas - JessyAtv";
+        }
+
+        private void InicializarDataGridView()
+        {
+            // Configurar as colunas do DataGridView
+            dataGridView1.ColumnCount = 2;
+            dataGridView1.Columns[0].Name = "Nome da Despesa";
+            dataGridView1.Columns[1].Name = "Valor";
+
+            // Configurar o DataGridView para não permitir a edição direta das células
+            dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
+
+            // Carregar os dados da lista de despesas no DataGridView
+            AtualizarDataGridView();
+        }
+
+        private void AtualizarDataGridView()
+        {
+            // Limpar as linhas existentes no DataGridView
+            dataGridView1.Rows.Clear();
+
+            // Adicionar as despesas ao DataGridView
+            foreach (var despesa in despesas)
+            {
+                dataGridView1.Rows.Add(despesa.Nome, despesa.Valor.ToString("C"));
+            }
+        }
+
+        private void btnAdicionarDespesa_Click(object sender, EventArgs e)
+        {
+            // Exibir caixa de diálogo de entrada para obter o nome da despesa
+            string nomeDespesa = ObterNomeDespesa();
+
+            if (nomeDespesa != null && decimal.TryParse(ObterValorDespesa(), out decimal valor))
+            {
+                Despesa novaDespesa = new Despesa(nomeDespesa, valor);
+                despesas.Add(novaDespesa);
+
+                // Atualizar o DataGridView
+                AtualizarDataGridView();
+            }
+            else
+            {
+                MessageBox.Show("Por favor, preencha os campos corretamente.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private string ObterNomeDespesa()
+        {
+            // Exibir caixa de diálogo de entrada para obter o nome da despesa
+            using (var form = new InputForm("Digite o nome da despesa:"))
+            {
+                var result = form.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    return form.ValorInformado;
+                }
+                return null;
+            }
+        }
+
+        private string ObterValorDespesa()
+        {
+            // Exibir caixa de diálogo de entrada para obter o valor da despesa
+            using (var form = new InputForm("Digite o valor da despesa:"))
+            {
+                var result = form.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    return form.ValorInformado;
+                }
+                return null;
+            }
+        }
+
+        private void btnSalvarPlanilha_Click(object sender, EventArgs e)
+        {
+            // Salvar a lista de despesas em um arquivo CSV
+            using (StreamWriter sw = new StreamWriter("planilha_despesas.csv"))
+            {
+                foreach (var despesa in despesas)
+                {
+                    sw.WriteLine($"{despesa.Nome},{despesa.Valor}");
+                }
+            }
+
+            MessageBox.Show("Planilha salva com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void btnGerarDocumento_Click(object sender, EventArgs e)
+        {
+            if (despesas.Count > 0)
+            {
+                // Calcular total e percentual para cada despesa
+                decimal totalGastos = despesas.Sum(d => d.Valor);
+                List<string> relatorio = new List<string>();
+
+                foreach (var despesa in despesas)
+                {
+                    decimal percentual = (despesa.Valor / totalGastos) * 100;
+                    relatorio.Add($"{despesa.Nome}: {despesa.Valor.ToString("C")} ({percentual.ToString("0.00")}%)");
+                }
+
+                // Adicionar a totalização ao relatório
+                relatorio.Add($"Total de Gastos: {totalGastos.ToString("C")}");
+
+                // Exibir o total dos gastos e a distribuição percentual no MessageBox
+                MessageBox.Show($"Total de Gastos: {totalGastos.ToString("C")}\n\nRelatório:\n{string.Join("\n", relatorio)}", "Relatório de Despesas", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Salvar o relatório em um arquivo de texto
+                using (StreamWriter sw = new StreamWriter("relatorio_despesas.txt"))
+                {
+                    foreach (var linha in relatorio)
+                    {
+                        sw.WriteLine(linha);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Adicione despesas antes de gerar o relatório.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnGerarDocumentoConsolidado_Click(object sender, EventArgs e)
+        {
+            GerarDocumentoConsolidado();
+        }
+
+        private void GerarDocumentoConsolidado()
+        {
+            if (despesas.Count > 0)
+            {
+                // Calcular total e percentual para cada despesa
+                decimal totalGastos = despesas.Sum(d => d.Valor);
+                List<string> relatorio = new List<string>();
+
+                foreach (var despesa in despesas)
+                {
+                    decimal percentual = (despesa.Valor / totalGastos) * 100;
+                    relatorio.Add($"{despesa.Nome}: {despesa.Valor.ToString("C")} ({percentual.ToString("0.00")}%)");
+                }
+
+                // Adicionar a totalização ao relatório
+                relatorio.Add($"Total de Gastos: {totalGastos.ToString("C")}");
+
+                // Exibir o total dos gastos e a distribuição percentual no MessageBox
+                MessageBox.Show($"Total de Gastos: {totalGastos.ToString("C")}\n\nRelatório Consolidado:\n{string.Join("\n", relatorio)}", "Relatório Consolidado de Despesas", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Salvar o relatório consolidado em um arquivo de texto
+                using (StreamWriter sw = new StreamWriter("relatorio_consolidado_despesas.txt"))
+                {
+                    foreach (var linha in relatorio)
+                    {
+                        sw.WriteLine(linha);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Adicione despesas antes de gerar o relatório consolidado.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+    }
+
+    public class Despesa
+    {
+        public string Nome { get; set; }
+        public decimal Valor { get; set; }
+
+        public Despesa(string nome, decimal valor)
+        {
+            Nome = nome;
+            Valor = valor;
+        }
+    }
+
+    public class InputForm : Form
+    {
+        private Label labelPrompt;
+        private TextBox textBoxInput;
+        private Button buttonOK;
+        private Button buttonCancel;
+
+        public string ValorInformado => textBoxInput.Text;
+
+        public InputForm(string prompt)
+        {
+            InitializeComponent();
+            labelPrompt.Text = prompt;
+        }
+
+        private void InitializeComponent()
+        {
+            // Configurações do formulário...
+
+            labelPrompt = new Label();
+            textBoxInput = new TextBox();
+            buttonOK = new Button();
+            buttonCancel = new Button();
+
+            // Configurações do layout...
+
+            Controls.Add(labelPrompt);
+            Controls.Add(textBoxInput);
+            Controls.Add(buttonOK);
+            Controls.Add(buttonCancel);
+
+            // Configurações dos eventos...
+
+            buttonOK.Text = "OK";
+            buttonOK.DialogResult = DialogResult.OK;
+            buttonOK.Click += buttonOK_Click;
+
+            buttonCancel.Text = "Cancelar";
+            buttonCancel.DialogResult = DialogResult.Cancel;
+        }
+
+        private void buttonOK_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+    }
+}
