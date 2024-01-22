@@ -1,0 +1,53 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lista.Atv2
+
+class Program
+{
+    static void Main()
+    {
+        // Cotação do dólar fixa
+        decimal cotacaoDolar = 4.94M;
+
+        Console.WriteLine($"A cotação do dólar é: {cotacaoDolar:C2}");
+
+        // Exemplo de conversão de dólares para reais
+        Console.Write("Digite o valor em dólares a ser convertido para reais: ");
+        if (decimal.TryParse(Console.ReadLine(), out decimal valorEmDolares))
+        {
+            decimal valorEmReais = ConverterMoeda(valorEmDolares, cotacaoDolar);
+            Console.WriteLine($"O valor em reais é: {valorEmReais:C2}");
+        }
+        else
+        {
+            Console.WriteLine("Entrada inválida. Certifique-se de inserir um valor numérico para a conversão.");
+        }
+
+        // Exemplo de conversão de reais para dólares
+        Console.Write("Digite o valor em reais a ser convertido para dólares: ");
+        if (decimal.TryParse(Console.ReadLine(), out decimal valorEmReais))
+        {
+            decimal valorEmDolares = ConverterMoeda(valorEmReais, 1 / cotacaoDolar);
+            Console.WriteLine($"O valor em dólares é: {valorEmDolares:C2}");
+        }
+        else
+        {
+            Console.WriteLine("Entrada inválida. Certifique-se de inserir um valor numérico para a conversão.");
+        }
+
+        // Aguardar a entrada do usuário antes de fechar o console
+        Console.ReadLine();
+    }
+
+    // Função para converter entre moedas
+    static decimal ConverterMoeda(decimal valor, decimal taxaDeCambio)
+    {
+        return valor * taxaDeCambio;
+        
+    }
+}
+
