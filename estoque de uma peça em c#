@@ -1,0 +1,44 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lista.Atvs1
+{
+    using System;
+
+    class Program
+    {
+        static void Main()
+        {
+            Console.WriteLine("Olá! Seja bem-vindo ao programa de cálculo do estoque médio.");
+
+            // Solicitar a quantidade mínima
+            Console.Write("Digite a quantidade mínima: ");
+            float quantidadeMinima = float.Parse(Console.ReadLine());
+
+            // Solicitar a quantidade máxima
+            Console.Write("Digite a quantidade máxima: ");
+            float quantidadeMaxima = float.Parse(Console.ReadLine());
+
+            // Calcular o estoque médio
+            float estoqueMedio = CalcularEstoqueMedio(quantidadeMinima, quantidadeMaxima);
+
+            // Exibir o resultado
+            Console.WriteLine($"O estoque médio é: {estoqueMedio}");
+
+            // Aguardar a entrada do usuário antes de fechar o console
+            Console.ReadLine();
+        }
+
+        // Função para calcular o estoque médio
+        static float CalcularEstoqueMedio(float quantidadeMinima, float quantidadeMaxima)
+        {
+            float estoqueMedio = (quantidadeMinima + quantidadeMaxima) / 2;
+            return estoqueMedio;
+        }
+    }
+
+
+}
