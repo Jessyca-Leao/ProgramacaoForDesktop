@@ -1,0 +1,79 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ListaAtv._3
+{
+    using System;
+
+    class Program
+    {
+        static void Main()
+        {
+            Console.WriteLine("Sistema de Pagamento de Comissão para Vendedores de Peças");
+
+            // Solicitar informações do vendedor
+            Console.Write("Digite o ID do vendedor: ");
+            int idVendedor;
+            if (int.TryParse(Console.ReadLine(), out idVendedor))
+            {
+                Console.Write("Digite o nome do vendedor: ");
+                string nomeVendedor = Console.ReadLine();
+
+                // Saudação personalizada
+                Console.WriteLine($"Olá, seja bem-vindo(a), {nomeVendedor}!");
+
+                // Solicitar informações da peça
+                Console.Write("Digite o código da peça: ");
+                string codigoPeca = Console.ReadLine();
+
+                Console.Write("Digite o preço unitário da peça: ");
+                if (decimal.TryParse(Console.ReadLine(), out decimal precoUnitario))
+                {
+                    Console.Write("Digite a quantidade vendida: ");
+                    if (int.TryParse(Console.ReadLine(), out int quantidadeVendida))
+                    {
+                        decimal valorTotalVendas = precoUnitario * quantidadeVendida;
+
+                        // Calcular a comissão (considerando uma taxa de comissão fixa de 5%)
+                        decimal taxaComissao = 0.05M;
+                        decimal comissao = CalcularComissao(valorTotalVendas, taxaComissao);
+
+                        // Exibir os resultados
+                        Console.WriteLine($"\nDetalhes do Pagamento para Vendedor ID {idVendedor} - {nomeVendedor}:");
+                        Console.WriteLine($"Código da Peça: {codigoPeca}");
+                        Console.WriteLine($"Preço Unitário da Peça: R$ {precoUnitario:C2}");
+                        Console.WriteLine($"Quantidade Vendida: {quantidadeVendida}");
+                        Console.WriteLine($"Valor Total de Vendas: R$ {valorTotalVendas:C2}");
+                        Console.WriteLine($"Taxa de Comissão: {taxaComissao:P}");
+                        Console.WriteLine($"Comissão a Pagar: R$ {comissao:C2}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Entrada inválida para a quantidade vendida.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Entrada inválida para o preço unitário da peça.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Entrada inválida para o ID do vendedor.");
+            }
+
+            // Aguardar a entrada do usuário antes de fechar o console
+            Console.ReadLine();
+        }
+
+        // Função para calcular a comissão
+        static decimal CalcularComissao(decimal valorTotalVendas, decimal taxaComissao)
+        {
+            return valorTotalVendas * taxaComissao;
+        }
+    }
+
+}
