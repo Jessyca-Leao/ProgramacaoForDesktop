@@ -1,0 +1,36 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ListaAtv._5
+{
+    using System;
+
+    class Program
+    {
+        static void Main()
+        {
+            Console.WriteLine("Cálculo do Consumo de Gasolina por Quilômetro");
+
+            Console.Write("Digite a distância percorrida em quilômetros: ");
+            double distancia = LerDouble();
+
+            double litrosUsados = distancia / 12;
+            Console.WriteLine($"Litros de gasolina usados: {litrosUsados:F2} litros");
+
+            Console.ReadLine();
+        }
+        static double LerDouble()
+        {
+            double valor;
+            while (!double.TryParse(Console.ReadLine(), out valor))
+            {
+                Console.WriteLine("Valor inválido. Por favor, digite um número válido.");
+            }
+            return valor;
+        }
+    }
+
+}
