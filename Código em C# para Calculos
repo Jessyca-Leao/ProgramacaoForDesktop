@@ -1,0 +1,41 @@
+using System;
+
+class Program
+{
+    /*
+        Programa: OperacoesMatematicas
+        Descrição: Este programa realiza diversas operações matemáticas (adição, subtração, multiplicação, divisão)
+                   com quatro valores numéricos fornecidos pelo usuário.
+        Autor: [Jessy]
+        Data: [24/01/2024]
+    */
+
+    static void Main()
+    {
+        double[] valores = ObterValores();
+
+        double valorA = valores[0];
+        double valorB = valores[1];
+        double valorC = valores[2];
+        double valorD = valores[3];
+
+        // operações de adição
+        ApresentarResultado("adição", valorA + valorB, valorA, valorB);
+        ApresentarResultado("adição", valorA + valorC, valorA, valorC);
+        ApresentarResultado("adição", valorA + valorD, valorA, valorD);
+        ApresentarResultado("adição", valorB + valorC, valorB, valorC);
+        ApresentarResultado("adição", valorB + valorD, valorB, valorD);
+        ApresentarResultado("adição", valorC + valorD, valorC, valorD);
+
+        // operações de multiplicação
+        ApresentarResultado("multiplicação", valorA * valorB, valorA, valorB);
+        ApresentarResultado("multiplicação", valorA * valorC, valorA, valorC);
+        ApresentarResultado("multiplicação", valorA * valorD, valorA, valorD);
+        ApresentarResultado("multiplicação", valorB * valorC, valorB, valorC);
+        ApresentarResultado("multiplicação", valorB * valorD, valorB, valorD);
+        ApresentarResultado("multiplicação", valorC * valorD, valorC, valorD);
+
+        // operações de divisão (com verificações para evitar divisão por zero)
+        ApresentarResultadoDivisao("divisão", valorA, valorB);
+        ApresentarResultadoDivisao("divisão", valorA, valorC);
+        ApresentarResultadoDivisao("divisão
