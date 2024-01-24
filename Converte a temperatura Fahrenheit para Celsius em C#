@@ -1,0 +1,48 @@
+sing System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ListaAtv._7
+{
+    using System;
+
+    class Program
+    {
+        static void Main()
+        {
+            Console.WriteLine("Conversor de Temperatura: Fahrenheit para Celsius");
+
+            //a temperatura em graus Fahrenheit
+            Console.Write("Digite a temperatura em graus Fahrenheit: ");
+            double temperaturaFahrenheit = LerDouble();
+
+            // Converte a temperatura para graus Celsius usando a fórmula da folha
+            double temperaturaCelsius = (temperaturaFahrenheit - 32) * 5 / 9;
+
+            
+            Console.WriteLine($"Temperatura em Celsius: {temperaturaCelsius:F2} °C");
+
+            Console.ReadLine();
+        }
+
+        static double LerDouble()
+        {
+            double valor;
+            while (!double.TryParse(Console.ReadLine(), out valor))
+            {
+                Console.WriteLine("Valor inválido. Por favor, digite um número válido.");
+            }
+            return valor;
+        }
+
+        /*
+            Programa: Conversor de Temperatura Fahrenheit para Celsius
+            Descrição: Este programa converte a temperatura de graus Fahrenheit para Celsius.
+            Autor: [Jessy]
+            Data: [24/01/2024]
+        */
+    }
+
+}
