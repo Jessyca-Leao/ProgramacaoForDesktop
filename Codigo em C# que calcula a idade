@@ -1,0 +1,39 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        int anoNascimento = ObterAnoNascimento();
+        int idade = CalcularIdade(anoNascimento);
+
+        ApresentarInformacoes(idade);
+    }
+
+    static int ObterAnoNascimento()
+    {
+        Console.Write("Digite o ano de nascimento da pessoa: ");
+        return Convert.ToInt32(Console.ReadLine());
+    }
+
+    static int CalcularIdade(int anoNascimento)
+    {
+        return DateTime.Now.Year - anoNascimento;
+    }
+
+    static void ApresentarInformacoes(int idade)
+    {
+        int mesesTotais = idade * 12;
+        int diasTotais = idade * 365;
+        int horasTotais = diasTotais * 24;
+
+        Console.WriteLine($"A pessoa tem atualmente {idade} anos.");
+        Console.WriteLine($"Desde o nascimento, passaram-se:");
+        Console.WriteLine($"Meses: {mesesTotais}");
+        Console.WriteLine($"Dias: {diasTotais}");
+        Console.WriteLine($"Horas: {horasTotais}");
+
+        // Assinatura com o nome Jessy
+        Console.WriteLine("\nDesenvolvido por Jessy");
+    }
+}
