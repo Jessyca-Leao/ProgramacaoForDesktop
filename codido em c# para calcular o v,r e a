@@ -1,0 +1,28 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        // Solicita o raio da base da lata de óleo
+        Console.Write("Digite o raio da base da lata de óleo (em metros): ");
+        double raio = Convert.ToDouble(Console.ReadLine());
+
+        // Solicita a altura da lata de óleo
+        Console.Write("Digite a altura da lata de óleo (em metros): ");
+        double altura = Convert.ToDouble(Console.ReadLine());
+
+        // Calcula o volume da lata de óleo
+        double volume = CalcularVolumeLata(raio, altura);
+
+        // Apresenta o resultado
+        Console.WriteLine($"O volume da lata de óleo é: {volume} metros cúbicos");
+    }
+
+    static double CalcularVolumeLata(double raio, double altura)
+    {
+        // A constante 3.14159 representa o valor de pi
+        double volume = 3.14159 * Math.Pow(raio, 2) * altura;
+        return volume;
+    }
+}
